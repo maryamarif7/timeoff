@@ -1,5 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
-import { MockHcmServer } from '../../src/mock-hcm/mock-hcm-server';
+import { MockHcmServer } from '../mock-hcm/mock-hcm-server';
 import { createTestModule } from '../test-helpers';
 import { RequestsService } from '../../src/requests/requests.service';
 import { BalanceRepository } from '../../src/balance/balance.repository';

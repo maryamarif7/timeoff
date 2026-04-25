@@ -31,6 +31,6 @@ export class DatabaseModule implements OnModuleInit {
   constructor(private readonly config: ConfigService) {}
 
   onModuleInit() {
-    // Migrations are run by DatabaseService on first use
+   
   }
 }

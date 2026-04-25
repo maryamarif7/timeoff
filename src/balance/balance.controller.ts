@@ -3,7 +3,7 @@ import {
   ParseBoolPipe, DefaultValuePipe, HttpCode,
 } from '@nestjs/common';
 import { BalanceService } from './balance.service';
-import { BatchSyncDto } from './dto/balance.dto';
+import { BatchSyncDto } from './balance.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
