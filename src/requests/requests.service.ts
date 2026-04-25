@@ -7,9 +7,9 @@ import { BalanceRepository } from '../balance/balance.repository';
 import { HcmClientService } from '../sync/hcm-client.service';
 import { AuditService } from '../audit/audit.service';
 import { SyncWorkerService } from '../sync/sync-worker.service';
-import { CreateRequestDto, RejectRequestDto } from './dto/request.dto';
-import { RequestStatus, canTransition } from './entities/request-status.enum';
-import { computeWorkingDays } from '../common/utils/working-days.util';
+import { CreateRequestDto, RejectRequestDto } from './request.dto';
+import { RequestStatus, canTransition } from './request.status.enum';
+import { computeWorkingDays } from '../common/utills/working-days.util';
 
 @Injectable()
 export class RequestsService {
@@ -55,7 +55,7 @@ export class RequestsService {
 
       this.balanceRepo.lockDays(employeeId, dto.locationId, dto.leaveType, days);
 
-      // Fire async HCM validation without blocking 202
+    
       this.validateWithHcmAsync(request.id, employeeId, dto.locationId, dto.leaveType, days);
 
       this.auditService.log({ type: 'REQUEST_SUBMITTED', employeeId, locationId: dto.locationId, leaveType: dto.leaveType, payload: { requestId: request.id, days } });
@@ -100,7 +100,7 @@ export class RequestsService {
 
       this.auditService.log({ type: 'REQUEST_APPROVED', employeeId: request.employeeId, payload: { requestId, managerId, hcmRef: result.reference } });
 
-      // Schedule post-deduction balance verification (defensive guard)
+    
       this.syncWorker.scheduleVerification(requestId, request.employeeId, request.locationId, request.leaveType);
 
       return this.requestsRepo.findById(requestId);
@@ -109,7 +109,7 @@ export class RequestsService {
         await this.rejectRequestInternal(requestId, err.message, managerId);
         throw new BadRequestException(err.message);
       }
-      // Transient failure — queue for retry
+
       this.requestsRepo.updateStatus(requestId, RequestStatus.SYNCING);
       await this.syncWorker.enqueueApproval(requestId, managerId);
       this.auditService.log({ type: 'APPROVAL_QUEUED', status: 'PARTIAL', payload: { requestId, managerId } });
