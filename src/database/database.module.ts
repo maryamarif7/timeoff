@@ -1,6 +1,6 @@
 import { Module, Global, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Database from 'better-sqlite3';
+const Database = require('better-sqlite3');
 import * as path from 'path';
 import * as fs from 'fs';
 

@@ -4,7 +4,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { DB_TOKEN } from '../database/database.module';
 import { HcmClientService } from './hcm-client.service';
 import { AuditService } from '../audit/audit.service';
-import { generateId, nowIso, futureIso } from '../common/utils/idempotency.util';
+import { generateId, nowIso, futureIso } from '../common/utills/idempotency.util';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

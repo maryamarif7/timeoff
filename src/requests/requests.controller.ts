@@ -3,7 +3,7 @@ import {
   UseGuards, HttpCode, HttpStatus, Request,
 } from '@nestjs/common';
 import { RequestsService } from './requests.service';
-import { CreateRequestDto, RejectRequestDto, ApproveRequestDto } from './dto/request.dto';
+import { CreateRequestDto, RejectRequestDto, ApproveRequestDto } from './request.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';

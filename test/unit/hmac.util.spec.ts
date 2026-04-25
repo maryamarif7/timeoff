@@ -1,4 +1,4 @@
-import { computeHmac, verifyHmac } from '../../src/common/utils/hmac.util';
+import { computeHmac, verifyHmac } from '../../src/common/utills/hmac.util';
 
 describe('HMAC utility', () => {
   const secret = 'test-secret';

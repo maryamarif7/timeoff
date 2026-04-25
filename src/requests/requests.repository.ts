@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import Database from 'better-sqlite3';
 import { RequestStatus } from './request.status.enum';
 import { generateId, nowIso } from '../common/utills/idempotency.util';
-
+import { DB_TOKEN } from '../database/database.module';
 export interface TimeOffRequest {
   id: string;
   employeeId: string;

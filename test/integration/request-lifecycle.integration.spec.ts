@@ -1,10 +1,10 @@
 import { TestingModule } from '@nestjs/testing';
-import { MockHcmServer } from '../mock-hcm/mock-hcm-server';
-import { createTestModule } from '../test-helpers';
+import { MockHcmServer } from '../../src/mock-hcm/mock-hcm-server';
+import { createTestModule } from '../../src/mock-hcm/test.helpers';
 import { RequestsService } from '../../src/requests/requests.service';
 import { BalanceRepository } from '../../src/balance/balance.repository';
 import { AuditService } from '../../src/audit/audit.service';
-import { RequestStatus } from '../../src/requests/entities/request-status.enum';
+import { RequestStatus } from '../../src/requests/request.status.enum';
 
 describe('Request Lifecycle (integration)', () => {
   let mockHcm: MockHcmServer;
@@ -34,13 +34,13 @@ describe('Request Lifecycle (integration)', () => {
     balanceRepo.upsert('emp-1', 'loc-1', 'vacation', 10);
   });
 
-  // ── Submission ─────────────────────────────────────────────────────────
+ 
 
   describe('submitRequest', () => {
     it('creates a PENDING request and locks days from balance', async () => {
       const req = await requestsService.submitRequest('emp-1', {
         locationId: 'loc-1', leaveType: 'vacation',
-        startDate: '2024-06-03', endDate: '2024-06-07', // 5 working days
+        startDate: '2024-06-03', endDate: '2024-06-07', 
       });
       expect(req.status).toBe(RequestStatus.PENDING);
       expect(req.days).toBe(5);
@@ -71,7 +71,7 @@ describe('Request Lifecycle (integration)', () => {
       await expect(
         requestsService.submitRequest('emp-1', {
           locationId: 'loc-1', leaveType: 'vacation',
-          startDate: '2024-06-03', endDate: '2024-06-07', // 5 days
+          startDate: '2024-06-03', endDate: '2024-06-07', 
         }),
       ).rejects.toThrow('Insufficient balance');
     });
@@ -80,7 +80,7 @@ describe('Request Lifecycle (integration)', () => {
       await expect(
         requestsService.submitRequest('emp-1', {
           locationId: 'loc-1', leaveType: 'vacation',
-          startDate: '2024-06-08', endDate: '2024-06-09', // Sat-Sun
+          startDate: '2024-06-08', endDate: '2024-06-09',
         }),
       ).rejects.toThrow('no working days');
     });
@@ -92,23 +92,23 @@ describe('Request Lifecycle (integration)', () => {
         startDate: '2024-06-03', endDate: '2024-06-05',
       });
       expect(req.status).toBe(RequestStatus.PENDING);
-      // Let async HCM validation complete
+     
       await new Promise(r => setTimeout(r, 300));
       const updated = (module.get(RequestsService) as any).requestsRepo.findById(req.id);
       expect(updated.status).toBe(RequestStatus.REJECTED);
-      // Balance lock should be released
+   
       const balance = balanceRepo.findOne('emp-1', 'loc-1', 'vacation')!;
       expect(balance.lockedDays).toBe(0);
     });
   });
 
-  // ── Approval ───────────────────────────────────────────────────────────
+ 
 
   describe('approveRequest', () => {
     it('approves a PENDING request and deducts balance', async () => {
       const req = await requestsService.submitRequest('emp-1', {
         locationId: 'loc-1', leaveType: 'vacation',
-        startDate: '2024-06-03', endDate: '2024-06-05', // 3 days
+        startDate: '2024-06-03', endDate: '2024-06-05',
       });
       const approved = await requestsService.approveRequest(req.id, 'mgr-1');
       expect(approved!.status).toBe(RequestStatus.APPROVED);
@@ -170,7 +170,7 @@ describe('Request Lifecycle (integration)', () => {
     });
   });
 
-  // ── Rejection ──────────────────────────────────────────────────────────
+ 
 
   describe('rejectRequest', () => {
     it('rejects a PENDING request and releases locked days', async () => {
@@ -187,7 +187,7 @@ describe('Request Lifecycle (integration)', () => {
     });
   });
 
-  // ── Cancellation ───────────────────────────────────────────────────────
+
 
   describe('cancelRequest', () => {
     it('cancels a PENDING request and releases locked days', async () => {
@@ -233,7 +233,7 @@ describe('Request Lifecycle (integration)', () => {
     });
   });
 
-  // ── Audit ──────────────────────────────────────────────────────────────
+
 
   describe('Audit trail', () => {
     it('logs REQUEST_SUBMITTED event on submission', async () => {

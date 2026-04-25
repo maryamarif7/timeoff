@@ -1,13 +1,10 @@
 import { TestingModule } from '@nestjs/testing';
-import { MockHcmServer } from '../mock-hcm/mock-hcm-server';
-import { createTestModule } from '../test-helpers';
+import { MockHcmServer } from '../../src/mock-hcm/mock-hcm-server';
+import { createTestModule } from '../../src/mock-hcm/test.helpers';
 import { RequestsService } from '../../src/requests/requests.service';
 import { BalanceRepository } from '../../src/balance/balance.repository';
 
-/**
- * CHALLENGE TEST: Two concurrent requests that together exceed the balance.
- * Advisory lock must prevent both from succeeding.
- */
+
 describe('Concurrent Request Guard (integration)', () => {
   let mockHcm: MockHcmServer;
   let hcmPort: number;
@@ -33,18 +30,18 @@ describe('Concurrent Request Guard (integration)', () => {
   });
 
   it('prevents double-submission that would exceed balance', async () => {
-    // Balance = 3 days; two requests for 2 days each
+    
     mockHcm.setBalance('emp-1', 'loc-1', 'vacation', 3);
     balanceRepo.upsert('emp-1', 'loc-1', 'vacation', 3);
 
     const [result1, result2] = await Promise.allSettled([
       requestsService.submitRequest('emp-1', {
         locationId: 'loc-1', leaveType: 'vacation',
-        startDate: '2024-06-03', endDate: '2024-06-04', // 2 days
+        startDate: '2024-06-03', endDate: '2024-06-04',
       }),
       requestsService.submitRequest('emp-1', {
         locationId: 'loc-1', leaveType: 'vacation',
-        startDate: '2024-06-10', endDate: '2024-06-11', // 2 days
+        startDate: '2024-06-10', endDate: '2024-06-11', 
       }),
     ]);
 
@@ -55,7 +52,7 @@ describe('Concurrent Request Guard (integration)', () => {
     expect(failed).toHaveLength(1);
     expect((failed[0] as PromiseRejectedResult).reason.message).toMatch(/Insufficient/i);
 
-    // Locked days should equal the one successful request (2 days)
+  
     const balance = balanceRepo.findOne('emp-1', 'loc-1', 'vacation')!;
     expect(balance.lockedDays).toBe(2);
   });
@@ -103,7 +100,7 @@ describe('Concurrent Request Guard (integration)', () => {
   });
 
   it('handles 5 concurrent requests gracefully (stress)', async () => {
-    // Balance = 6 days, each request = 2 days → max 3 should succeed
+   
     mockHcm.setBalance('emp-stress', 'loc-1', 'vacation', 6);
     balanceRepo.upsert('emp-stress', 'loc-1', 'vacation', 6);
 

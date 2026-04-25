@@ -5,7 +5,7 @@ import {
 import { Request } from 'express';
 import { WebhooksService, BalanceUpdateEvent } from './webhooks.service';
 import { ConfigService } from '@nestjs/config';
-import { verifyHmac } from '../common/utils/hmac.util';
+import { verifyHmac } from '../common/utills/hmac.util';
 import { IsString, IsNumber, IsOptional, IsNotEmpty, Min } from 'class-validator';
 
 class BalanceUpdateDto implements BalanceUpdateEvent {

@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import Database from 'better-sqlite3';
-import { DB_TOKEN } from '../database/database.module';
-import { generateId, nowIso } from '../common/utils/idempotency.util';
+import { DB_TOKEN } from '../database/database.tokens';
+import { generateId, nowIso } from '../common/utills/idempotency.util';
 
 export interface AuditLogEntry {
   type: string;

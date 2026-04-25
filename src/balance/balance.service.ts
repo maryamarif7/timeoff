@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { BalanceRepository } from './balance.repository';
 import { HcmClientService } from '../sync/hcm-client.service';
-import { AuditService } from '../audit/audit.service';
-import { BatchSyncDto } from './dto/balance.dto';
+import  {AuditService}  from '../audit/audit.service';
+import { BatchSyncDto } from './balance.dto';
 
 @Injectable()
 export class BalanceService {
@@ -42,7 +42,7 @@ export class BalanceService {
       if (existing) {
         const safeToApply = item.balance >= existing.lockedDays;
         if (!safeToApply) {
-          // New balance would make pending requests unserviceable
+     
           this.auditService.log({
             type: 'BALANCE_CONFLICT',
             employeeId: item.employeeId,

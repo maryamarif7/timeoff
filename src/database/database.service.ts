@@ -1,6 +1,6 @@
 import { Injectable, Inject, OnModuleInit, Logger } from '@nestjs/common';
 import Database from 'better-sqlite3';
-
+import { DB_TOKEN } from './database.module';
 
 interface Migration {
   version: number;

@@ -1,4 +1,4 @@
-import { RequestStatus, canTransition, VALID_TRANSITIONS } from '../../src/requests/entities/request-status.enum';
+import { RequestStatus, canTransition, VALID_TRANSITIONS } from '../../src/requests/request.status.enum';
 
 describe('State machine — canTransition', () => {
   describe('Valid transitions', () => {

@@ -1,4 +1,4 @@
-import { computeWorkingDays } from '../../src/common/utils/working-days.util';
+import { computeWorkingDays } from '../../src/common/utills/working-days.util';
 
 describe('computeWorkingDays', () => {
   it('counts Mon–Fri as 5 working days', () => {

@@ -1,9 +1,9 @@
-import { Injectable, Logger, ConflictException } from '@nestjs/common';
+import { Injectable, Logger, ConflictException ,Inject} from '@nestjs/common';
 import { BalanceRepository } from '../balance/balance.repository';
 import { AuditService } from '../audit/audit.service';
 import { generateId, nowIso, futureIso } from '../common/utills/idempotency.util';
 import Database from 'better-sqlite3';
-
+import { DB_TOKEN } from '../database/database.tokens';
 
 export interface BalanceUpdateEvent {
   employeeId: string;
@@ -17,7 +17,7 @@ export interface BalanceUpdateEvent {
 @Injectable()
 export class WebhooksService {
   private readonly logger = new Logger(WebhooksService.name);
-  private readonly IDEMPOTENCY_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+  private readonly IDEMPOTENCY_TTL_MS = 24 * 60 * 60 * 1000; 
 
   constructor(
     @Inject(DB_TOKEN) private readonly db: Database.Database,
