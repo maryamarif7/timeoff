@@ -1,0 +1,56 @@
+# 📦 Node modules
+
+node_modules/
+
+# 🔐 Environment variables
+
+.env
+.env.*
+
+# 🧱 Build output
+
+dist/
+build/
+
+# 🧪 Coverage reports
+
+coverage/
+
+# 🗄️ SQLite database
+
+*.sqlite
+*.db
+*.sqlite3
+
+# 🧾 Logs
+
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# 🖥️ OS files
+
+.DS_Store
+Thumbs.db
+
+# 🧠 IDE / Editor
+
+.vscode/
+.idea/
+
+# 🔄 Temporary files
+
+tmp/
+temp/
+
+# 🧪 Jest cache
+
+.cache/
+
+# 🔑 Optional: lock files (keep if working in team)
+
+# package-lock.json
+
+# yarn.lock
