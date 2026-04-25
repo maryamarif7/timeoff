@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import Database from 'better-sqlite3';
+import * as Database from 'better-sqlite3';
 import { DB_TOKEN } from '../database/database.module';
 import { generateId, nowIso } from '../common/utills/idempotency.util';
 
