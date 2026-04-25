@@ -1,7 +1,3 @@
-/**
- * Computes working days between two dates (inclusive).
- * Excludes weekends. Accepts optional holiday list.
- */
 export function computeWorkingDays(
   startDate: Date,
   endDate: Date,

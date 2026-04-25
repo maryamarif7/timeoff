@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import Database from 'better-sqlite3';
 import { DB_TOKEN } from '../database/database.module';
-import { RequestStatus } from './entities/request-status.enum';
-import { generateId, nowIso } from '../common/utils/idempotency.util';
+import { RequestStatus } from './request.status.enum';
+import { generateId, nowIso } from '../common/utills/idempotency.util';
 
 export interface TimeOffRequest {
   id: string;

@@ -66,7 +66,7 @@ export class BalanceRepository {
     return this.findOne(employeeId, locationId, leaveType)!;
   }
 
-  /** Advisory lock: serialize concurrent access per key (in-process) */
+  
   async withAdvisoryLock<T>(lockKey: string, fn: () => Promise<T>): Promise<T> {
     const existing = this.locks.get(lockKey) ?? Promise.resolve();
     const next = existing.then(() => fn());
@@ -74,7 +74,7 @@ export class BalanceRepository {
     try {
       return await next;
     } finally {
-      // Clean up lock entry after all pending operations settle
+    
       if (this.locks.get(lockKey) === next.catch(() => {})) {
         this.locks.delete(lockKey);
       }

@@ -27,7 +27,7 @@ export class RequestsController {
     @Query('from') from?: string,
     @Query('to') to?: string,
   ) {
-    // Employees can only see their own requests
+   
     const effectiveEmployeeId = req.user.role === 'manager' || req.user.role === 'admin'
       ? employeeId
       : req.user.sub;

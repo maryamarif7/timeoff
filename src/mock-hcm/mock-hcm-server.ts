@@ -51,7 +51,7 @@ export class MockHcmServer {
       next();
     });
 
-    // ── Control API ──────────────────────────────────────────────────────
+    
     this.app.post('/__mock/config', (req: Request, res: Response) => {
       if (req.body.scenario) this.scenario = req.body.scenario;
       if (req.body.balances) Object.assign(this.balances, req.body.balances);
@@ -74,7 +74,6 @@ export class MockHcmServer {
       res.json({ ok: true });
     });
 
-    // Trigger anniversary bonus push (test helper)
     this.app.post('/__mock/trigger-bonus', (req: Request, res: Response) => {
       const { employeeId, locationId, leaveType, bonusDays } = req.body;
       const k = this.key(employeeId, locationId, leaveType);
@@ -82,9 +81,9 @@ export class MockHcmServer {
       res.json({ ok: true, newBalance: this.balances[k] });
     });
 
-    // ── Leave validate ────────────────────────────────────────────────────
+   
     this.app.post('/leave/validate', (req: Request, res: Response) => {
-      if (this.scenario === 'timeout') return; // deliberately never respond
+      if (this.scenario === 'timeout') return;
       if (this.scenario === 'server_error') {
         return void res.status(503).json({ error: 'HCM unavailable' });
       }
@@ -99,7 +98,7 @@ export class MockHcmServer {
       res.json({ valid: true });
     });
 
-    // ── Leave deduct ──────────────────────────────────────────────────────
+    
     this.app.post('/leave/deduct', (req: Request, res: Response) => {
       if (this.scenario === 'timeout') return;
       if (this.scenario === 'server_error') {
